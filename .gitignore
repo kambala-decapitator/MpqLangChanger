@@ -1,7 +1,12 @@
 # Xcode
 DerivedData
-MpqLangChanger.xcodeproj/project.xcworkspace
 xcuserdata
+MpqLangChanger.xcodeproj/project.xcworkspace
+build/
+*.mode1v3
+*.pbxuser
+
+.DS_Store
 
 # Visual Studio
 Debug/
