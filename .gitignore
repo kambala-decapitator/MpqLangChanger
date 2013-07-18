@@ -6,6 +6,8 @@ MpqLangChanger.xcodeproj/xcuserdata
 # Visual Studio
 Debug/
 Release/
+bin/
+ipch/
 *.user
 *sdf
 *.suo
