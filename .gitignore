@@ -1,3 +1,11 @@
+# Xcode
 DerivedData
 MpqLangChanger.xcodeproj/project.xcworkspace
 MpqLangChanger.xcodeproj/xcuserdata
+
+# Visual Studio
+Debug/
+Release/
+*.user
+*sdf
+*.suo
