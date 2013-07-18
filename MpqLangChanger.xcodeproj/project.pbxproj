@@ -8,31 +8,48 @@
 
 /* Begin PBXBuildFile section */
 		ACD34ABC1797F5C400801192 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACD34ABB1797F5C400801192 /* main.cpp */; };
-		ACD34AC81797F6AE00801192 /* libStormLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD34AC51797F6AE00801192 /* libStormLib.a */; };
 		ACD34ACA1797F75400801192 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD34AC91797F75400801192 /* libz.dylib */; };
 		ACD34ACC1797F75A00801192 /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD34ACB1797F75A00801192 /* libbz2.dylib */; };
+		ACD35B9B1798843B000D48F4 /* libStormLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD35B94179883F9000D48F4 /* libStormLib.a */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		ACD34AB61797F5C400801192 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
+/* Begin PBXContainerItemProxy section */
+		ACD35B93179883F9000D48F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACD35B8D179883F9000D48F4 /* StormLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 225530D41056BAC800FA646A;
+			remoteInfo = StormLib;
 		};
-/* End PBXCopyFilesBuildPhase section */
+		ACD35B95179883F9000D48F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACD35B8D179883F9000D48F4 /* StormLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 225FAC940E53B7F800DA2CAE;
+			remoteInfo = StormLibFramework;
+		};
+		ACD35B97179883F9000D48F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACD35B8D179883F9000D48F4 /* StormLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 22954ACE11D463A30064B264;
+			remoteInfo = StormLib_Test;
+		};
+		ACD35B9917988431000D48F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACD35B8D179883F9000D48F4 /* StormLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 225530D31056BAC800FA646A;
+			remoteInfo = StormLib;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		ACD34AB81797F5C400801192 /* MpqLangChanger */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MpqLangChanger; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACD34ABB1797F5C400801192 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		ACD34AC51797F6AE00801192 /* libStormLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libStormLib.a; sourceTree = "<group>"; };
-		ACD34AC61797F6AE00801192 /* StormLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StormLib.h; sourceTree = "<group>"; };
-		ACD34AC71797F6AE00801192 /* StormPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StormPort.h; sourceTree = "<group>"; };
 		ACD34AC91797F75400801192 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		ACD34ACB1797F75A00801192 /* libbz2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.dylib; path = usr/lib/libbz2.dylib; sourceTree = SDKROOT; };
+		ACD35B8D179883F9000D48F4 /* StormLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = StormLib.xcodeproj; path = MpqLangChanger/StormLib.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,9 +57,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACD35B9B1798843B000D48F4 /* libStormLib.a in Frameworks */,
 				ACD34ACC1797F75A00801192 /* libbz2.dylib in Frameworks */,
 				ACD34ACA1797F75400801192 /* libz.dylib in Frameworks */,
-				ACD34AC81797F6AE00801192 /* libStormLib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,8 +69,8 @@
 		ACD34AAF1797F5C400801192 = {
 			isa = PBXGroup;
 			children = (
+				ACD35B8D179883F9000D48F4 /* StormLib.xcodeproj */,
 				ACD34ACD1797F76300801192 /* libs */,
-				ACD34AC41797F6AE00801192 /* StormLib */,
 				ACD34ABA1797F5C400801192 /* MpqLangChanger */,
 				ACD34AB91797F5C400801192 /* Products */,
 			);
@@ -76,17 +93,6 @@
 			path = MpqLangChanger;
 			sourceTree = "<group>";
 		};
-		ACD34AC41797F6AE00801192 /* StormLib */ = {
-			isa = PBXGroup;
-			children = (
-				ACD34AC51797F6AE00801192 /* libStormLib.a */,
-				ACD34AC61797F6AE00801192 /* StormLib.h */,
-				ACD34AC71797F6AE00801192 /* StormPort.h */,
-			);
-			name = StormLib;
-			path = MpqLangChanger/StormLib;
-			sourceTree = "<group>";
-		};
 		ACD34ACD1797F76300801192 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +100,16 @@
 				ACD34AC91797F75400801192 /* libz.dylib */,
 			);
 			name = libs;
+			sourceTree = "<group>";
+		};
+		ACD35B8E179883F9000D48F4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ACD35B94179883F9000D48F4 /* libStormLib.a */,
+				ACD35B96179883F9000D48F4 /* StormLib.framework */,
+				ACD35B98179883F9000D48F4 /* StormLib_Test */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -105,11 +121,12 @@
 			buildPhases = (
 				ACD34AB41797F5C400801192 /* Sources */,
 				ACD34AB51797F5C400801192 /* Frameworks */,
-				ACD34AB61797F5C400801192 /* CopyFiles */,
+				ACD35B5017987D0D000D48F4 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				ACD35B9A17988431000D48F4 /* PBXTargetDependency */,
 			);
 			name = MpqLangChanger;
 			productName = MpqLangChanger;
@@ -135,12 +152,58 @@
 			mainGroup = ACD34AAF1797F5C400801192;
 			productRefGroup = ACD34AB91797F5C400801192 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = ACD35B8E179883F9000D48F4 /* Products */;
+					ProjectRef = ACD35B8D179883F9000D48F4 /* StormLib.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				ACD34AB71797F5C400801192 /* MpqLangChanger */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		ACD35B94179883F9000D48F4 /* libStormLib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStormLib.a;
+			remoteRef = ACD35B93179883F9000D48F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ACD35B96179883F9000D48F4 /* StormLib.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = StormLib.framework;
+			remoteRef = ACD35B95179883F9000D48F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ACD35B98179883F9000D48F4 /* StormLib_Test */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = StormLib_Test;
+			remoteRef = ACD35B97179883F9000D48F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		ACD35B5017987D0D000D48F4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		ACD34AB41797F5C400801192 /* Sources */ = {
@@ -153,12 +216,20 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		ACD35B9A17988431000D48F4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = StormLib;
+			targetProxy = ACD35B9917988431000D48F4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		ACD34ABF1797F5C400801192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -176,6 +247,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -206,26 +278,26 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.5;
 			};
 			name = Release;
 		};
 		ACD34AC21797F5C400801192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/MpqLangChanger/StormLib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = StormLib/src;
 			};
 			name = Debug;
 		};
@@ -235,11 +307,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/MpqLangChanger/StormLib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = StormLib/src;
 			};
 			name = Release;
 		};
@@ -262,6 +332,7 @@
 				ACD34AC31797F5C400801192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
