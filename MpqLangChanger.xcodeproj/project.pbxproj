@@ -69,10 +69,10 @@
 		ACD34AAF1797F5C400801192 = {
 			isa = PBXGroup;
 			children = (
-				ACD35B8D179883F9000D48F4 /* StormLib.xcodeproj */,
 				ACD34ACD1797F76300801192 /* libs */,
 				ACD34ABA1797F5C400801192 /* MpqLangChanger */,
 				ACD34AB91797F5C400801192 /* Products */,
+				ACD35B8D179883F9000D48F4 /* StormLib.xcodeproj */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 0;
@@ -121,7 +121,6 @@
 			buildPhases = (
 				ACD34AB41797F5C400801192 /* Sources */,
 				ACD34AB51797F5C400801192 /* Frameworks */,
-				ACD35B5017987D0D000D48F4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -188,22 +187,6 @@
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		ACD35B5017987D0D000D48F4 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		ACD34AB41797F5C400801192 /* Sources */ = {
