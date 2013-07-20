@@ -14,6 +14,16 @@ using std::cout;
 using std::endl;
 
 #define APP_NAME "MpqLangChanger"
+#define LANGUAGE_INFO(langId) " 0x0" << std::hex << static_cast<short>(langId) << " " << kLanguages[langId] << endl
+
+#define EXIT_WITH_ERROR(error_text, f) \
+{\
+    cout << error_text << endl << endl; \
+    f(); \
+    return EXIT_FAILURE;\
+}
+#define EXIT_WITH_ERROR_PRINT_HELP(error_text)  EXIT_WITH_ERROR(error_text, print_help)
+#define EXIT_WITH_ERROR_PRINT_USAGE(error_text) EXIT_WITH_ERROR(error_text, print_usage)
 
 #ifdef WIN32
 #define MPQ_TEST_PATH L"d:\\Games\\Installed\\Diablo II\\Patch_D2.mpq"
@@ -39,132 +49,138 @@ const struct LanguageData { const char *languageKey, *language; } kLanguages[kLa
 std::ostream &operator <<(std::ostream &o, const LanguageData &langData)
 {
     o << langData.languageKey;
-    if (langData.language) {
+    if (langData.language)
         o << " (" << langData.language << ")";
-    }
     return o;
 }
 
-const char *const kUseFileMpqPath = "data\\local\\use", *const kOptionValueDelimeter = "=";
+const char *const kUseFileMpqPath = "data\\local\\use", *const kOptionValueDelimeter = "=", *const kIndentation = "    ";
 
 
 void print_usage()
 {
-    cout << "usage: "APP_NAME
+    const char *kUsageStartText = "usage: "APP_NAME
 #ifdef WIN32
     ".exe"
 #endif
-    " -l=<language ID (hex) or 3-letter key> <MPQ path>" << endl;
+    " ";
+
+    cout << kUsageStartText << "-l=[language ID (hex) or 3-letter key] mpq_path" << endl;
+    cout << kIndentation << "set new MPQ language" << endl << "OR" << endl;
+    
+    cout << kUsageStartText << "-p mpq_path" << endl;
+    cout << kIndentation << "print current MPQ language" << endl;
 }
 
 void print_help()
 {
-    cout << "help\n";
-    return;
-    const char *indent = "    ";
     cout << "available languages:\n";
-    cout << indent << "ID    Key  Language\n";
-    cout << indent << "-------------------\n";
-    for (int i = 0; i < kLanguagesCount; ++i) {
+    cout << kIndentation << "ID    Key  Language\n";
+    cout << kIndentation << "-------------------\n";
+    for (int i = 0; i < kLanguagesCount; ++i)
+    {
         LanguageData data = kLanguages[i];
-        cout << indent << "0x0" << std::hex << i << "  " << data.languageKey;
-        if (data.language) {
+        cout << kIndentation << "0x0" << std::hex << i << "  " << data.languageKey;
+        if (data.language)
             cout << "  " << data.language;
-        }
         cout << endl;
     }
 }
 
 int main(int argc, const char *argv[])
 {
-    if (argc < 3) {
+    if (argc < 3)
+    {
         print_usage();
         cout << endl;
         print_help();
-        return 1;
+        return EXIT_FAILURE;
     }
+
+    bool justPrintCurrentLanguage = false;
+    char langId;
 
     char *option = strtok(const_cast<char *>(argv[1]), kOptionValueDelimeter);
-    if (strcmp(option, "-l")) {
-        cout << "illegal option: " << option << endl;
-        print_usage();
-        return 2;
-    }
-    char *langParam = strtok(0, kOptionValueDelimeter);
-    if (!langParam) {
-        cout << "language value is missing." << endl;
-        print_usage();
-        return 3;
-    }
-    cout << "got lang " << langParam << endl;
-    if (strlen(langParam) != 4 || strcasestr(langParam, "0x0") != langParam) {
-        cout << "wrong hex format. ";
-        print_help();
-        return 4;
-    }
-    char langChar = toupper(langParam[3]);
-    char langId;
-    if (isdigit(langChar))
+    if (!option)
+        EXIT_WITH_ERROR_PRINT_USAGE("option missing");
+    
+    if (!strcmp(option, "-p"))
+        justPrintCurrentLanguage = true;
+    else if (!strcmp(option, "-l"))
     {
-        langId = atoi(&langChar);
-    }
-    else if (isxdigit(langChar))
-    {
-        langChar -= 17; // map to 0-9
-        langId = 10 + atoi(&langChar);
+        char *langParam = strtok(0, kOptionValueDelimeter);
+        if (!langParam)
+            EXIT_WITH_ERROR_PRINT_USAGE("language value is missing");
+
+        bool isUnsupportedLanguage = true;
+        switch (strlen(langParam)) {
+            case 3: // probably 3-letter key
+                for (int i = 0; i < kLanguagesCount; ++i)
+                {
+                    if (!strcmp(langParam, kLanguages[i].languageKey))
+                    {
+                        langId = i;
+                        isUnsupportedLanguage = false;
+                        break;
+                    }
+                }
+                break;
+            case 4: // probably hex ID
+            {
+                if (strcasestr(langParam, "0x0") != langParam)
+                    EXIT_WITH_ERROR_PRINT_HELP("wrong hex format");
+
+                char langChar = toupper(langParam[3]);
+                if (isdigit(langChar))
+                    langId = atoi(&langChar);
+                else if (isxdigit(langChar))
+                {
+                    langChar -= 17; // map to 0-9
+                    langId = 10 + atoi(&langChar);
+                }
+                else
+                    EXIT_WITH_ERROR_PRINT_HELP("it's not a hex number");
+                
+                isUnsupportedLanguage = langId >= kLanguagesCount;
+            }
+                break;
+            default:
+                break;
+        }
+
+        if (isUnsupportedLanguage)
+            EXIT_WITH_ERROR_PRINT_HELP("this language isn't supported");
+        
+        cout << "new MPQ language will be" << LANGUAGE_INFO(langId);
     }
     else
-    {
-        cout << "it's not a hex number. ";
-        print_help();
-        return 5;
-    }
-    if (langId >= kLanguagesCount) {
-        cout << "this language isn't supported. ";
-        print_help();
-        return 6;
-    }
+        EXIT_WITH_ERROR_PRINT_USAGE("illegal option: " << option);
 
     const TCHAR *mpqPath = argv[2];
-    cout << "entered path: " << mpqPath << endl;
-
     HANDLE phMPQ = 0;
-    DWORD flags = BASE_PROVIDER_FILE | STREAM_PROVIDER_LINEAR | STREAM_FLAG_WRITE_SHARE;
-    bool b = SFileOpenArchive(mpqPath, 0, flags, &phMPQ);
-    cout << "open result " << b << ", handle " << phMPQ << ", ";
-    if (phMPQ)
-        cout << "is readonly " << (((TMPQArchive *)phMPQ)->dwFlags & MPQ_FLAG_READ_ONLY) << endl;
+    if (!SFileOpenArchive(mpqPath, 0, BASE_PROVIDER_FILE | STREAM_PROVIDER_LINEAR | STREAM_FLAG_WRITE_SHARE, &phMPQ))
+    {
+        cout << "error opening MPQ '" << mpqPath << "': " << GetLastError() << "\neither invalid path or unsupported file." << endl;
+        return EXIT_FAILURE;
+    }
+
+    if (justPrintCurrentLanguage)
+    {
+        HANDLE phUseFile = 0;
+        if (SFileOpenFileEx(phMPQ, kUseFileMpqPath, SFILE_OPEN_FROM_MPQ, &phUseFile) && SFileReadFile(phUseFile, &langId, 1, 0, 0))
+            cout << "current MPQ language is" << LANGUAGE_INFO(langId);
+        else
+            cout << "error reading MPQ language: " << GetLastError() << endl;
+        SFileCloseFile(phUseFile);
+    }
     else
     {
-        cout << "error " << GetLastError() << endl;
-        return 7;
+        HANDLE phNewUseFile = 0;
+        if (!SFileCreateFile(phMPQ, kUseFileMpqPath, 0, 1, 0, MPQ_FILE_REPLACEEXISTING, &phNewUseFile) || !SFileWriteFile(phNewUseFile, &langId, 1, 0))
+            cout << "error setting new MPQ language: " << GetLastError() << endl;
+        SFileFinishFile(phNewUseFile);
     }
 
-    HANDLE phUseFile = NULL;
-    b = SFileOpenFileEx(phMPQ, kUseFileMpqPath, SFILE_OPEN_FROM_MPQ, &phUseFile);
-    cout << "open result " << b << ", handle " << phUseFile << endl;
-    char buf;
-    DWORD bytes;
-    b = SFileReadFile(phUseFile, &buf, 1, &bytes, NULL);
-    cout << "read result " << b << ", locale " << (short)buf << " " << kLanguages[buf] << endl;
-    b = SFileCloseFile(phUseFile);
-    cout << "close result " << b << endl;
-
-    HANDLE phNewUseFile = 0;
-    b = SFileCreateFile(phMPQ, kUseFileMpqPath, 0, 1, 0, MPQ_FILE_REPLACEEXISTING, &phNewUseFile);
-    cout << "create result " << b << ", handle " << phNewUseFile << endl;
-    b = SFileWriteFile(phNewUseFile, &langId, 1, 0);
-    cout << "write result " << b << " new locale " << (short)langId << " " << kLanguages[langId] << endl;
-    if (phNewUseFile)
-    {
-        b = SFileFinishFile(phNewUseFile);
-        cout << "finish result " << b << endl;
-    }
-
-    b = SFileCompactArchive(phMPQ, 0, false);
-    cout << "compact result " << b << ", error " << GetLastError() << endl;
-    b = SFileCloseArchive(phMPQ);
-    cout << "close result " << b << endl;
-    
+    SFileCloseArchive(phMPQ);
     return 0;
 }
