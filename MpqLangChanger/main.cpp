@@ -48,7 +48,7 @@ std::ostream &operator <<(std::ostream &o, const LanguageData &langData)
     return o;
 }
 
-const char *const kUseFileMpqPath = "data\\local\\use", *const kOptionValueDelimeter = "=", *const kIndentation = "    ";
+const char *const kUseFileMpqPath = "data\\local\\use", *const kOptionValueDelimiter = "=", *const kIndentation = "    ";
 
 
 void print_usage()
@@ -57,7 +57,7 @@ void print_usage()
 
     cout << kUsageStartText << "-l=[language ID (hex) or 3-letter key] mpq_path" << endl;
     cout << kIndentation << "set new MPQ language" << endl << "OR" << endl;
-    
+
     cout << kUsageStartText << "-p mpq_path" << endl;
     cout << kIndentation << "print current MPQ language" << endl;
 }
@@ -90,15 +90,15 @@ int main(int argc, const char *argv[])
     bool justPrintCurrentLanguage = false;
     char langId;
 
-    char *option = strtok(const_cast<char *>(argv[1]), kOptionValueDelimeter);
+    char *option = strtok(const_cast<char *>(argv[1]), kOptionValueDelimiter);
     if (!option)
         EXIT_AND_PRINT_USAGE("option missing");
-    
+
     if (!strcmp(option, "-p"))
         justPrintCurrentLanguage = true;
     else if (!strcmp(option, "-l"))
     {
-        char *langParam = strtok(0, kOptionValueDelimeter);
+        char *langParam = strtok(0, kOptionValueDelimiter);
         if (!langParam)
             EXIT_AND_PRINT_USAGE("language value is missing");
 
@@ -134,7 +134,7 @@ int main(int argc, const char *argv[])
                 }
                 else
                     EXIT_AND_PRINT_HELP("it's not a hex number");
-                
+
                 isUnsupportedLanguage = langId >= kLanguagesCount;
             }
                 break;
@@ -144,7 +144,7 @@ int main(int argc, const char *argv[])
 
         if (isUnsupportedLanguage)
             EXIT_AND_PRINT_HELP("this language isn't supported");
-        
+
         cout << "new MPQ language will be" << LANGUAGE_INFO(langId);
     }
     else
