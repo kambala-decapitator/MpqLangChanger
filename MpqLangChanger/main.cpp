@@ -22,14 +22,8 @@ using std::endl;
     f(); \
     return EXIT_FAILURE;\
 }
-#define EXIT_WITH_ERROR_PRINT_HELP(error_text)  EXIT_WITH_ERROR(error_text, print_help)
-#define EXIT_WITH_ERROR_PRINT_USAGE(error_text) EXIT_WITH_ERROR(error_text, print_usage)
-
-#ifdef WIN32
-#define MPQ_TEST_PATH L"d:\\Games\\Installed\\Diablo II\\Patch_D2.mpq"
-#else
-#define MPQ_TEST_PATH "/Users/kambala/Downloads/2012 005 rus only"
-#endif
+#define EXIT_AND_PRINT_HELP(error_text)  EXIT_WITH_ERROR(error_text, print_help)
+#define EXIT_AND_PRINT_USAGE(error_text) EXIT_WITH_ERROR(error_text, print_usage)
 
 const int kLanguagesCount = 12;
 const struct LanguageData { const char *languageKey, *language; } kLanguages[kLanguagesCount] = {
@@ -59,11 +53,7 @@ const char *const kUseFileMpqPath = "data\\local\\use", *const kOptionValueDelim
 
 void print_usage()
 {
-    const char *kUsageStartText = "usage: "APP_NAME
-#ifdef WIN32
-    ".exe"
-#endif
-    " ";
+    const char *kUsageStartText = "usage: "APP_NAME" ";
 
     cout << kUsageStartText << "-l=[language ID (hex) or 3-letter key] mpq_path" << endl;
     cout << kIndentation << "set new MPQ language" << endl << "OR" << endl;
@@ -102,7 +92,7 @@ int main(int argc, const char *argv[])
 
     char *option = strtok(const_cast<char *>(argv[1]), kOptionValueDelimeter);
     if (!option)
-        EXIT_WITH_ERROR_PRINT_USAGE("option missing");
+        EXIT_AND_PRINT_USAGE("option missing");
     
     if (!strcmp(option, "-p"))
         justPrintCurrentLanguage = true;
@@ -110,7 +100,7 @@ int main(int argc, const char *argv[])
     {
         char *langParam = strtok(0, kOptionValueDelimeter);
         if (!langParam)
-            EXIT_WITH_ERROR_PRINT_USAGE("language value is missing");
+            EXIT_AND_PRINT_USAGE("language value is missing");
 
         bool isUnsupportedLanguage = true;
         switch (strlen(langParam)) {
@@ -127,8 +117,12 @@ int main(int argc, const char *argv[])
                 break;
             case 4: // probably hex ID
             {
+#ifndef WIN32
                 if (strcasestr(langParam, "0x0") != langParam)
-                    EXIT_WITH_ERROR_PRINT_HELP("wrong hex format");
+#else
+                if (strstr(langParam, "0x0") != langParam && strstr(langParam, "0X0") != langParam)
+#endif
+                    EXIT_AND_PRINT_HELP("wrong hex format");
 
                 char langChar = toupper(langParam[3]);
                 if (isdigit(langChar))
@@ -139,7 +133,7 @@ int main(int argc, const char *argv[])
                     langId = 10 + atoi(&langChar);
                 }
                 else
-                    EXIT_WITH_ERROR_PRINT_HELP("it's not a hex number");
+                    EXIT_AND_PRINT_HELP("it's not a hex number");
                 
                 isUnsupportedLanguage = langId >= kLanguagesCount;
             }
@@ -149,16 +143,16 @@ int main(int argc, const char *argv[])
         }
 
         if (isUnsupportedLanguage)
-            EXIT_WITH_ERROR_PRINT_HELP("this language isn't supported");
+            EXIT_AND_PRINT_HELP("this language isn't supported");
         
         cout << "new MPQ language will be" << LANGUAGE_INFO(langId);
     }
     else
-        EXIT_WITH_ERROR_PRINT_USAGE("illegal option: " << option);
+        EXIT_AND_PRINT_USAGE("illegal option: " << option);
 
     const TCHAR *mpqPath = argv[2];
-    HANDLE phMPQ = 0;
-    if (!SFileOpenArchive(mpqPath, 0, BASE_PROVIDER_FILE | STREAM_PROVIDER_LINEAR | STREAM_FLAG_WRITE_SHARE, &phMPQ))
+    HANDLE hMPQ = 0;
+    if (!SFileOpenArchive(mpqPath, 0, BASE_PROVIDER_FILE | STREAM_PROVIDER_LINEAR | STREAM_FLAG_WRITE_SHARE, &hMPQ))
     {
         cout << "error opening MPQ '" << mpqPath << "': " << GetLastError() << "\neither invalid path or unsupported file." << endl;
         return EXIT_FAILURE;
@@ -166,21 +160,21 @@ int main(int argc, const char *argv[])
 
     if (justPrintCurrentLanguage)
     {
-        HANDLE phUseFile = 0;
-        if (SFileOpenFileEx(phMPQ, kUseFileMpqPath, SFILE_OPEN_FROM_MPQ, &phUseFile) && SFileReadFile(phUseFile, &langId, 1, 0, 0))
+        HANDLE hUseFile = 0;
+        if (SFileOpenFileEx(hMPQ, kUseFileMpqPath, SFILE_OPEN_FROM_MPQ, &hUseFile) && SFileReadFile(hUseFile, &langId, 1, 0, 0))
             cout << "current MPQ language is" << LANGUAGE_INFO(langId);
         else
             cout << "error reading MPQ language: " << GetLastError() << endl;
-        SFileCloseFile(phUseFile);
+        SFileCloseFile(hUseFile);
     }
     else
     {
-        HANDLE phNewUseFile = 0;
-        if (!SFileCreateFile(phMPQ, kUseFileMpqPath, 0, 1, 0, MPQ_FILE_REPLACEEXISTING, &phNewUseFile) || !SFileWriteFile(phNewUseFile, &langId, 1, 0))
+        HANDLE hNewUseFile = 0;
+        if (!SFileCreateFile(hMPQ, kUseFileMpqPath, 0, 1, 0, MPQ_FILE_REPLACEEXISTING, &hNewUseFile) || !SFileWriteFile(hNewUseFile, &langId, 1, 0))
             cout << "error setting new MPQ language: " << GetLastError() << endl;
-        SFileFinishFile(phNewUseFile);
+        SFileFinishFile(hNewUseFile);
     }
 
-    SFileCloseArchive(phMPQ);
+    SFileCloseArchive(hMPQ);
     return 0;
 }
